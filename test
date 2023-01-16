@@ -1,0 +1,16 @@
+[tool.pylint.basic]
+const-naming-style = UPPER_CASE
+class-const-naming-style = UPPER_CASE
+class-naming-style = PascalCase
+function-naming-style = snake_case
+method-naming-style = snake_case
+module-naming-style = snake_case
+variable-naming-style = snake_case
+argument-naming-style = snake_case
+
+missing-module-docstring = false
+missing-class-docstring = false
+missing-function-docstring = false
+
+[tool.pylint.format]
+max-line-length = 120
