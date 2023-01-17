@@ -1,27 +1,25 @@
 import re
 
 from flask_restx import Namespace, Resource, fields
-from flask import make_response
 
 RE_PATTERN = "[^a-zA-Z0-9]+"  # Regexp pattern to replace alpha-numeric characters
 
 
 api = Namespace("/", "Basic operations")
 
-user_model = api.model(
-    "User",
+user_model = api.model("User",
     {
         "name": fields.String(
             required=True, description="The name of the user", example="John Doe"
         ),
         "email": fields.String(
-            required=True,
-            description="The email of the user",
-            example="jdoe@mymail.com",
+            required=True, description="The email of the user", example="jdoe@mymail.com",
         ),
     },
 )
-example_user = {"name": "John Doe", "email": "jdoe@mymail.com"}
+
+example_user = {"name": user_model['name'].example,
+                "email": user_model['email'].example}
 
 
 @api.route("/info")
@@ -31,13 +29,6 @@ class Info(Resource):
         return {
             "message": "Hello API user. You can find the API documentation on the root path: '<URL>/'"
         }, 200
-
-
-@api.route("/info/<user>")
-class UserInfo(Resource):
-    @api.response(200, "Example User", user_model)
-    def get(self):
-        return make_response(example_user)
 
 
 @api.route("/mock/user")
