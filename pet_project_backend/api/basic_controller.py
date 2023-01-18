@@ -7,19 +7,24 @@ RE_PATTERN = "[^a-zA-Z0-9]+"  # Regexp pattern to replace alpha-numeric characte
 
 api = Namespace("/", "Basic operations")
 
-user_model = api.model("User",
+user_model = api.model(
+    "User",
     {
         "name": fields.String(
             required=True, description="The name of the user", example="John Doe"
         ),
         "email": fields.String(
-            required=True, description="The email of the user", example="jdoe@mymail.com",
+            required=True,
+            description="The email of the user",
+            example="jdoe@mymail.com",
         ),
     },
 )
 
-example_user = {"name": user_model['name'].example,
-                "email": user_model['email'].example}
+example_user = {
+    "name": user_model["name"].example,
+    "email": user_model["email"].example,
+}
 
 
 @api.route("/info")
