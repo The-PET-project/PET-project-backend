@@ -10,7 +10,7 @@
   - check by get the current Python version: `python --version` or `python -V`<br>
   *Depending on your operating system and its version python might be installed as: py, python, python3 or some 
     specific version python3.8, etc.*  
-  - if python is not installed or you have an older version you need to install it:
+  - if python is not installed, or you have an older version you need to install it:
     - for windows check the [Python Releases for Windows](https://www.python.org/downloads/windows/) 
     - for linux run the following commands:
       ```
@@ -35,7 +35,7 @@ Before you can run the application you need to install the dependencies.<br>
 
 **Steps**
 - Open a terminal/console window and navigate to the application folder
-- Install the dependencies by runiing: `poetry install`
+- Install the dependencies by running: `poetry install`
 - Start the application: `poetry run server-dev`
 
 The pyproject.toml file contains other prepared scripts that can be run like: `poetry run <script-name>`.
