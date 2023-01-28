@@ -11,7 +11,7 @@ CREATE  TABLE petproject.address (
 	CONSTRAINT user_id UNIQUE ( user_id )
  ) engine=InnoDB;
 
-CREATE  TABLE petproject.`user` (
+CREATE  TABLE petproject.user (
 	user_id              BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	username             VARCHAR(100)  NOT NULL,
 	email                VARCHAR(100)  NOT NULL,
@@ -93,7 +93,7 @@ CREATE  TABLE petproject.route (
 
 CREATE INDEX fk_route_pet_carer ON petproject.route ( pet_carer_id );
 
-ALTER TABLE petproject.`user` COMMENT 'User account that contains the registered people of the PET-project app.';
+ALTER TABLE petproject.user COMMENT 'User account that contains the registered people of the PET-project app.';
 
 ALTER TABLE petproject.service COMMENT 'Registered service requests in the PET-project application.\n\nTypes:\n- PET-WALKING: Get your pet walked by a pet carer\n- PET-FEED: Get your pet fed by a pet carer when you are not at home\n- PET-TAXI: Get your pet transported by a competent specialist\n- OVERNIGHT-CARE: Get your pet left under supervision overnight\n- PET-HOTEL: Get your pet cared when you go for a vacation';
 
