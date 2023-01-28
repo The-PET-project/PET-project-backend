@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="petproject" id="Project-1bc6" database="MySql" >
+	<comment><![CDATA[Database to store the entities for PET-project which is an application for pet related activities like walking, feeding, etc.]]></comment>
+	<schema name="petproject" >
+		<table name="address" prior="tbl_0" spec="" >
+			<column name="address_id" type="BIGINT" length="100" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="user_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="address" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="zip_code" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="city" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="county" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="country" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<index name="pk_address" unique="PRIMARY_KEY" >
+				<column name="address_id" />
+			</index>
+			<index name="user_id" unique="UNIQUE_KEY" >
+				<column name="user_id" />
+			</index>
+			<fk name="user_id" virtual="y" to_schema="petproject" to_table="user" delete_action="cascade" update_action="cascade" >
+				<fk_column name="user_id" pk="user_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="pet" prior="tbl" >
+			<column name="pet_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="owner_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="name" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="full_name" type="VARCHAR" length="150" jt="12" />
+			<column name="date_of_birth" type="DATE" jt="91" mandatory="y" >
+				<comment><![CDATA[Date with the format: YYYY-MM-DD]]></comment>
+			</column>
+			<column name="sex" type="CHAR" length="1" jt="1" mandatory="y" >
+				<comment><![CDATA[(M) for Male, (F) for Female]]></comment>
+			</column>
+			<column name="category" type="VARCHAR" length="50" jt="12" mandatory="y" >
+				<comment><![CDATA[Category of the animal like: Dog, Cat, Snake, Weasel]]></comment>
+			</column>
+			<column name="breed" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="color" type="VARCHAR" length="25" jt="12" />
+			<column name="rating" type="DOUBLE" jt="8" unsigned="y" />
+			<index name="pk_pet" unique="PRIMARY_KEY" >
+				<column name="pet_id" />
+			</index>
+			<fk name="fk_pet_pet_owner" to_schema="petproject" to_table="pet_owner" delete_action="cascade" update_action="cascade" >
+				<fk_column name="owner_id" pk="owner_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="pet_carer" prior="walker" spec="" >
+			<column name="pet_carer_id" prior="pet-carer_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="user_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="rating" type="DOUBLE" jt="8" unsigned="y" />
+			<index name="pk_walker" unique="PRIMARY_KEY" >
+				<column name="pet_carer_id" />
+			</index>
+			<index name="unique_index" unique="UNIQUE_KEY" >
+				<column name="user_id" />
+			</index>
+			<fk name="user_id" to_schema="petproject" to_table="user" delete_action="cascade" update_action="cascade" >
+				<fk_column name="user_id" pk="user_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="pet_carer_route" prior="routes" >
+			<column name="pet_carer_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="route_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<index name="fk_for_route" unique="NORMAL" >
+				<column name="route_id" />
+			</index>
+			<index name="fk_for_pet_carer" unique="NORMAL" >
+				<column name="pet_carer_id" />
+			</index>
+			<fk name="fk_for_pet_carer" to_schema="petproject" to_table="pet_carer" delete_action="cascade" update_action="cascade" >
+				<fk_column name="pet_carer_id" pk="pet_carer_id" />
+			</fk>
+			<fk name="fk_for_route" to_schema="petproject" to_table="route" delete_action="cascade" update_action="cascade" >
+				<fk_column name="route_id" pk="route_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="pet_owner" prior="owner" >
+			<column name="owner_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="user_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="rating" type="DOUBLE" jt="8" unsigned="y" />
+			<index name="pk_owner" unique="PRIMARY_KEY" >
+				<column name="owner_id" />
+			</index>
+			<index name="user_id" unique="UNIQUE_KEY" >
+				<column name="user_id" />
+			</index>
+			<fk name="user_id" to_schema="petproject" to_table="user" delete_action="cascade" update_action="cascade" >
+				<fk_column name="user_id" pk="user_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="pet_ownership" prior="owner_" >
+			<column name="owner_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="pet_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<index name="fk_pet_ownership_pet_owner" unique="NORMAL" >
+				<column name="owner_id" />
+			</index>
+			<index name="fk_pet_ownership_pet" unique="NORMAL" >
+				<column name="pet_id" />
+			</index>
+			<fk name="fk_pet_ownership_pet_owner" to_schema="petproject" to_table="pet_owner" >
+				<fk_column name="owner_id" pk="owner_id" />
+			</fk>
+			<fk name="fk_pet_ownership_pet" to_schema="petproject" to_table="pet" >
+				<fk_column name="pet_id" pk="pet_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="pet_service" prior="service_pet" >
+			<column name="service_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="pet_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<index name="fk_for_service" unique="NORMAL" >
+				<column name="service_id" />
+			</index>
+			<index name="fk_for_pet" unique="NORMAL" >
+				<column name="pet_id" />
+			</index>
+			<fk name="fk_for_service" to_schema="petproject" to_table="service" delete_action="cascade" update_action="cascade" >
+				<fk_column name="service_id" pk="service_id" />
+			</fk>
+			<fk name="fk_for_pet" to_schema="petproject" to_table="pet" delete_action="cascade" update_action="cascade" >
+				<fk_column name="pet_id" pk="pet_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="route" prior="walking_route" >
+			<comment><![CDATA[Registered walking routes connected to walker & service entities]]></comment>
+			<column name="route_id" prior="walking_route_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="service_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="pet_carer_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="appointment" type="DATETIME" jt="93" mandatory="y" >
+				<comment><![CDATA[Datetime in ISO format: "YYYY-MM-DDThh:mm:ssZ:" (e.g: "2023-01-28T12:00:00Z")]]></comment>
+			</column>
+			<index name="pk_walking_route" unique="PRIMARY_KEY" >
+				<column name="route_id" />
+			</index>
+			<index name="unique_index" unique="UNIQUE_KEY" >
+				<column name="service_id" />
+				<column name="appointment" />
+			</index>
+			<fk name="fk_route_service" to_schema="petproject" to_table="service" delete_action="cascade" update_action="cascade" >
+				<fk_column name="service_id" pk="service_id" />
+			</fk>
+			<fk name="fk_route_pet_carer" to_schema="petproject" to_table="pet_carer" delete_action="cascade" update_action="cascade" >
+				<fk_column name="pet_carer_id" pk="pet_carer_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="service" prior="tbl" >
+			<comment><![CDATA[Registered service requests in the PET-project application.
+
+Types:
+- PET-WALKING: Get your pet walked by a pet carer
+- PET-FEED: Get your pet fed by a pet carer when you are not at home
+- PET-TAXI: Get your pet transported by a competent specialist
+- OVERNIGHT-CARE: Get your pet left under supervision overnight
+- PET-HOTEL: Get your pet cared when you go for a vacation]]></comment>
+			<column name="service_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="owner_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<column name="type" type="ENUM" jt="12" mandatory="y" >
+				<enumeration><![CDATA['PET-WALKING','PET-FEED','PET-TAXI','OVERNIGHT-CARE','PET-HOTEL']]></enumeration>
+			</column>
+			<column name="days" type="VARCHAR" length="10" jt="12" mandatory="y" />
+			<column name="start_time" type="TIME" jt="92" mandatory="y" >
+				<comment><![CDATA[24h time format: "hh:mm" (e.g: "14:00")]]></comment>
+			</column>
+			<column name="time_interval" type="TINYINT" jt="-6" mandatory="y" unsigned="y" >
+				<comment><![CDATA[The length of the event given in minutes.]]></comment>
+			</column>
+			<column name="start_date" type="DATE" jt="91" mandatory="y" />
+			<column name="end_date" type="DATE" jt="91" />
+			<column name="description" type="VARCHAR" length="300" jt="12" />
+			<index name="pk_service" unique="PRIMARY_KEY" >
+				<column name="service_id" />
+			</index>
+			<fk name="fk_service_pet_owner" to_schema="petproject" to_table="pet_owner" delete_action="cascade" update_action="cascade" >
+				<fk_column name="owner_id" pk="owner_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="service_registration" prior="used_services" >
+			<column name="owner_id" type="INT" jt="4" mandatory="y" unsigned="y" />
+			<column name="service_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
+			<index name="fk_service_of_service_registration" unique="NORMAL" >
+				<column name="service_id" />
+			</index>
+			<fk name="fk_owner_of_service_registration" to_schema="petproject" to_table="pet_owner" delete_action="cascade" update_action="cascade" >
+				<fk_column name="owner_id" pk="owner_id" />
+			</fk>
+			<fk name="fk_service_of_service_registration" to_schema="petproject" to_table="service" delete_action="cascade" update_action="cascade" >
+				<fk_column name="service_id" pk="service_id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="user" prior="ser" >
+			<comment><![CDATA[User account that contains the registered people of the PET-project app.]]></comment>
+			<column name="user_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="username" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="email" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="password" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="phone" type="VARCHAR" length="30" jt="12" />
+			<column name="mobil" type="VARCHAR" length="30" jt="12" />
+			<column name="firstname" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="lastname" type="VARCHAR" length="100" jt="12" mandatory="y" />
+			<column name="middlename" type="VARCHAR" length="100" jt="12" />
+			<index name="pk_user" unique="PRIMARY_KEY" >
+				<column name="user_id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<connector name="MyDb" database="MySql" host="localhost" port="3306" user="root" useSystemProxy="false" />
+	<connector name="MyDb" database="MySql" host="localhost" port="3306" user="root" useSystemProxy="false" />
+	<connector name="MySql" database="MySql" driver_class="com.mysql.cj.jdbc.Driver" driver_jar="mysql-connector-j-8.0.31.jar" driver_desc="Standard" host="localhost" port="3306" user="root" passwd="ZGItcm9vdA==" useSystemProxy="false" />
+	<layout name="Default Layout" id="Layout-17c" show_column_type="y" show_relation="columns" >
+		<entity schema="petproject" name="address" color="C1D8EE" x="48" y="400" />
+		<entity schema="petproject" name="pet" color="C1D8EE" x="592" y="112" />
+		<entity schema="petproject" name="pet_carer" color="C1D8EE" x="336" y="416" />
+		<entity schema="petproject" name="pet_owner" color="C1D8EE" x="336" y="144" />
+		<entity schema="petproject" name="pet_service" color="C1D8EE" x="944" y="112" />
+		<entity schema="petproject" name="route" color="C1D8EE" x="592" y="416" />
+		<entity schema="petproject" name="service" color="C1D8EE" x="912" y="336" />
+		<entity schema="petproject" name="user" color="C1D8EE" x="48" y="144" />
+		<group name="Account" color="C4E0F9" >
+			<comment><![CDATA[Account related entities]]></comment>
+			<entity schema="petproject" name="user" />
+			<entity schema="petproject" name="address" />
+			<entity schema="petproject" name="pet_owner" />
+			<entity schema="petproject" name="pet_carer" />
+			<callout x="80" y="80" pointer="SV" />
+		</group>
+		<script name="SQL_Editor" id="Editor-2123" language="SQL" >
+			<string><![CDATA[CREATE SCHEMA petproject;
+
+CREATE  TABLE `user` ( 
+	user_id              BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	username             VARCHAR(100)  NOT NULL     ,
+	email                VARCHAR(100)  NOT NULL     ,
+	password             VARCHAR(100)  NOT NULL     ,
+	phone                VARCHAR(30)       ,
+	mobil                VARCHAR(30)       ,
+	firstname            VARCHAR(100)  NOT NULL     ,
+	lastname             VARCHAR(100)  NOT NULL     ,
+	middlename           VARCHAR(100)       
+ ) engine=InnoDB;
+
+CREATE  TABLE address ( 
+	address_id           BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	user_id              BIGINT UNSIGNED NOT NULL     ,
+	address              VARCHAR(100)  NOT NULL     ,
+	zip_code             INT UNSIGNED NOT NULL     ,
+	city                 VARCHAR(100)  NOT NULL     ,
+	county               VARCHAR(100)  NOT NULL     ,
+	country              VARCHAR(100)  NOT NULL     
+ ) engine=InnoDB;
+
+CREATE  TABLE pet_carer ( 
+	`pet-carer_id`       BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	user_id              INT UNSIGNED NOT NULL     ,
+	rating               DOUBLE UNSIGNED      
+ ) engine=InnoDB;
+
+CREATE  TABLE pet_owner ( 
+	owner_id             BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	user_id              BIGINT UNSIGNED NOT NULL     ,
+	rating               DOUBLE UNSIGNED      
+ ) engine=InnoDB;
+
+CREATE  TABLE route ( 
+	route_id             BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	pet_carer_id         BIGINT UNSIGNED NOT NULL     ,
+	service_id           BIGINT UNSIGNED NOT NULL     ,
+	appointment          DATETIME       
+ ) engine=InnoDB;
+
+CREATE  TABLE service ( 
+	service_id           BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	owner_id             BIGINT UNSIGNED NOT NULL     ,
+	`type`               ENUM('PET-WALKING','PET-FEED','PET-TAXI','OVERNIGHT-CARE','PET-HOTEL')  NOT NULL     ,
+	days                 VARCHAR(10)  NOT NULL     ,
+	start_time           TIME       ,
+	time_interval        TINYINT UNSIGNED NOT NULL     ,
+	start_date           DATE  NOT NULL     ,
+	end_date             DATE       ,
+	description          VARCHAR(300)       
+ ) engine=InnoDB;
+
+CREATE  TABLE service_registration ( 
+	owner_id             INT UNSIGNED NOT NULL     ,
+	service_id           BIGINT UNSIGNED NOT NULL     
+ ) engine=InnoDB;
+
+CREATE  TABLE pet ( 
+	pet_id               BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	owner_id             BIGINT UNSIGNED NOT NULL     ,
+	name                 VARCHAR(100)  NOT NULL     ,
+	full_name            VARCHAR(150)       ,
+	date_of_birth        DATE  NOT NULL     ,
+	sex                  CHAR(1)  NOT NULL     ,
+	category             VARCHAR(50)  NOT NULL     ,
+	breed                VARCHAR(100)  NOT NULL     ,
+	color                VARCHAR(25)       ,
+	rating               DOUBLE UNSIGNED      
+ ) engine=InnoDB;
+
+CREATE  TABLE pet_carer_route ( 
+	pet_carer_id         BIGINT UNSIGNED NOT NULL     ,
+	route_id             BIGINT UNSIGNED NOT NULL     
+ ) engine=InnoDB;
+
+CREATE  TABLE pet_ownership ( 
+	owner_id             BIGINT UNSIGNED NOT NULL     ,
+	pet_id               BIGINT UNSIGNED NOT NULL     
+ ) engine=InnoDB;
+
+CREATE  TABLE service_pet ( 
+	service_id           BIGINT UNSIGNED NOT NULL     ,
+	pet_id               BIGINT UNSIGNED NOT NULL     
+ ) engine=InnoDB;
+
+ALTER TABLE address ADD CONSTRAINT user_id FOREIGN KEY ( user_id ) REFERENCES `user`( user_id ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE pet ADD CONSTRAINT fk_pet_pet_owner FOREIGN KEY ( owner_id ) REFERENCES pet_owner( owner_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE pet_carer ADD CONSTRAINT user_id FOREIGN KEY ( user_id ) REFERENCES `user`( user_id ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE pet_carer_route ADD CONSTRAINT fk_for_pet_carer FOREIGN KEY ( pet_carer_id ) REFERENCES pet_carer( `pet-carer_id` ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE pet_carer_route ADD CONSTRAINT fk_for_route FOREIGN KEY ( route_id ) REFERENCES route( route_id ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE pet_owner ADD CONSTRAINT user_id FOREIGN KEY ( user_id ) REFERENCES `user`( user_id ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE pet_ownership ADD CONSTRAINT fk_pet_ownership_pet_owner FOREIGN KEY ( owner_id ) REFERENCES pet_owner( owner_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE pet_ownership ADD CONSTRAINT fk_pet_ownership_pet FOREIGN KEY ( pet_id ) REFERENCES pet( pet_id ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE route ADD CONSTRAINT fk_walking_route_pet_carer FOREIGN KEY ( pet_carer_id ) REFERENCES pet_carer( `pet-carer_id` ) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+ALTER TABLE service ADD CONSTRAINT fk_service_pet_owner FOREIGN KEY ( owner_id ) REFERENCES pet_owner( owner_id ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE service_pet ADD CONSTRAINT fk_for_service FOREIGN KEY ( service_id ) REFERENCES service( service_id ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE service_pet ADD CONSTRAINT fk_for_pet FOREIGN KEY ( pet_id ) REFERENCES pet( pet_id ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE service_registration ADD CONSTRAINT fk_owner_of_service_registration FOREIGN KEY ( owner_id ) REFERENCES pet_owner( owner_id ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE service_registration ADD CONSTRAINT fk_service_of_service_registration FOREIGN KEY ( service_id ) REFERENCES service( service_id ) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE `user` COMMENT 'User account that contains the registered people of the PET-project app.';
+
+ALTER TABLE route COMMENT 'Registered walking routes connected to walker & service entities';
+
+ALTER TABLE route MODIFY appointment DATETIME     COMMENT 'Datetime in ISO format: "YYYY-MM-DDThh:mm:ssZ:" (e.g: "2023-01-28T12:00:00Z")';
+
+ALTER TABLE service COMMENT 'Registered service requests in the PET-project application.\n\nTypes:\n- PET-WALKING: Get your pet walked by a pet carer\n- PET-FEED: Get your pet fed by a pet carer when you are not at home\n- PET-TAXI: Get your pet transported by a competent specialist\n- OVERNIGHT-CARE: Get your pet left under supervision overnight\n- PET-HOTEL: Get your pet cared when you go for a vacation';
+
+ALTER TABLE service MODIFY start_time TIME     COMMENT '24h time format: "hh:mm" (e.g: "14:00")';
+
+ALTER TABLE service MODIFY time_interval TINYINT UNSIGNED NOT NULL   COMMENT 'The length of the event given in minutes.';
+
+ALTER TABLE pet MODIFY date_of_birth DATE  NOT NULL   COMMENT 'Date with the format: YYYY-MM-DD';
+
+ALTER TABLE pet MODIFY sex CHAR(1)  NOT NULL   COMMENT '(M) for Male, (F) for Female';
+
+ALTER TABLE pet MODIFY category VARCHAR(50)  NOT NULL   COMMENT 'Category of the animal like: Dog, Cat, Snake, Weasel';
+]]></string>
+		</script>
+	</layout>
+</project>
