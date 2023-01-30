@@ -11,6 +11,8 @@ python = "^3.8"
 flask = "^2.2.2"
 flask-restx = "^1.0.3"
 marshmallow = "^3.19.0"
+mysql = "^0.0.3"
+flask-sqlalchemy = "^3.0.2"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.15.10"

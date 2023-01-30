@@ -1,0 +1,21 @@
+version: "2"
+services:
+  app:
+    container_name: 'PPB-server'
+    build:
+      context: ./
+      dockerfile: ./config/Dockerfile
+    links:
+      - db
+    ports:
+      - "5000:5000"
+  db:
+    image: mysql:8.0
+    container_name: 'PPB-mysqlDB'
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: db-root
+    volumes:
+      - ./config/db/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+      - ./config/db/data.sql:/docker-entrypoint-initdb.d/2_data.sql
