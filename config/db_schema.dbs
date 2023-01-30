@@ -45,6 +45,9 @@
 			<index name="pk_pet" unique="PRIMARY_KEY" >
 				<column name="pet_id" />
 			</index>
+			<index name="fk_pet_pet_owner" unique="NORMAL" >
+				<column name="owner_id" />
+			</index>
 			<fk name="fk_pet_pet_owner" to_schema="petproject" to_table="pet_owner" delete_action="cascade" update_action="cascade" >
 				<fk_column name="owner_id" pk="owner_id" />
 			</fk>
@@ -62,25 +65,8 @@
 			<index name="unique_index" unique="UNIQUE_KEY" >
 				<column name="user_id" />
 			</index>
-			<fk name="user_id" to_schema="petproject" to_table="user" delete_action="cascade" update_action="cascade" >
+			<fk name="fk_pet_carer_user" to_schema="petproject" to_table="user" delete_action="cascade" update_action="cascade" >
 				<fk_column name="user_id" pk="user_id" />
-			</fk>
-			<options><![CDATA[engine=InnoDB]]></options>
-		</table>
-		<table name="pet_carer_route" prior="routes" >
-			<column name="pet_carer_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
-			<column name="route_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
-			<index name="fk_for_route" unique="NORMAL" >
-				<column name="route_id" />
-			</index>
-			<index name="fk_for_pet_carer" unique="NORMAL" >
-				<column name="pet_carer_id" />
-			</index>
-			<fk name="fk_for_pet_carer" to_schema="petproject" to_table="pet_carer" delete_action="cascade" update_action="cascade" >
-				<fk_column name="pet_carer_id" pk="pet_carer_id" />
-			</fk>
-			<fk name="fk_for_route" to_schema="petproject" to_table="route" delete_action="cascade" update_action="cascade" >
-				<fk_column name="route_id" pk="route_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
@@ -98,23 +84,6 @@
 			</index>
 			<fk name="user_id" to_schema="petproject" to_table="user" delete_action="cascade" update_action="cascade" >
 				<fk_column name="user_id" pk="user_id" />
-			</fk>
-			<options><![CDATA[engine=InnoDB]]></options>
-		</table>
-		<table name="pet_ownership" prior="owner_" >
-			<column name="owner_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
-			<column name="pet_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
-			<index name="fk_pet_ownership_pet_owner" unique="NORMAL" >
-				<column name="owner_id" />
-			</index>
-			<index name="fk_pet_ownership_pet" unique="NORMAL" >
-				<column name="pet_id" />
-			</index>
-			<fk name="fk_pet_ownership_pet_owner" to_schema="petproject" to_table="pet_owner" >
-				<fk_column name="owner_id" pk="owner_id" />
-			</fk>
-			<fk name="fk_pet_ownership_pet" to_schema="petproject" to_table="pet" >
-				<fk_column name="pet_id" pk="pet_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
@@ -151,6 +120,9 @@
 			<index name="unique_index" unique="UNIQUE_KEY" >
 				<column name="service_id" />
 				<column name="appointment" />
+			</index>
+			<index name="fk_route_pet_carer" unique="NORMAL" >
+				<column name="pet_carer_id" />
 			</index>
 			<fk name="fk_route_service" to_schema="petproject" to_table="service" delete_action="cascade" update_action="cascade" >
 				<fk_column name="service_id" pk="service_id" />
@@ -189,22 +161,11 @@ Types:
 			<index name="pk_service" unique="PRIMARY_KEY" >
 				<column name="service_id" />
 			</index>
+			<index name="fk_service_pet_owner" unique="NORMAL" >
+				<column name="owner_id" />
+			</index>
 			<fk name="fk_service_pet_owner" to_schema="petproject" to_table="pet_owner" delete_action="cascade" update_action="cascade" >
 				<fk_column name="owner_id" pk="owner_id" />
-			</fk>
-			<options><![CDATA[engine=InnoDB]]></options>
-		</table>
-		<table name="service_registration" prior="used_services" >
-			<column name="owner_id" type="INT" jt="4" mandatory="y" unsigned="y" />
-			<column name="service_id" type="BIGINT" jt="-5" mandatory="y" unsigned="y" />
-			<index name="fk_service_of_service_registration" unique="NORMAL" >
-				<column name="service_id" />
-			</index>
-			<fk name="fk_owner_of_service_registration" to_schema="petproject" to_table="pet_owner" delete_action="cascade" update_action="cascade" >
-				<fk_column name="owner_id" pk="owner_id" />
-			</fk>
-			<fk name="fk_service_of_service_registration" to_schema="petproject" to_table="service" delete_action="cascade" update_action="cascade" >
-				<fk_column name="service_id" pk="service_id" />
 			</fk>
 			<options><![CDATA[engine=InnoDB]]></options>
 		</table>
@@ -216,11 +177,11 @@ Types:
 			<column name="username" type="VARCHAR" length="100" jt="12" mandatory="y" />
 			<column name="email" type="VARCHAR" length="100" jt="12" mandatory="y" />
 			<column name="password" type="VARCHAR" length="100" jt="12" mandatory="y" />
-			<column name="phone" type="VARCHAR" length="30" jt="12" />
-			<column name="mobil" type="VARCHAR" length="30" jt="12" />
 			<column name="firstname" type="VARCHAR" length="100" jt="12" mandatory="y" />
 			<column name="lastname" type="VARCHAR" length="100" jt="12" mandatory="y" />
 			<column name="middlename" type="VARCHAR" length="100" jt="12" />
+			<column name="phone" type="VARCHAR" length="30" jt="12" />
+			<column name="mobile" prior="mobil" type="VARCHAR" length="30" jt="12" />
 			<index name="pk_user" unique="PRIMARY_KEY" >
 				<column name="user_id" />
 			</index>
@@ -229,22 +190,23 @@ Types:
 	</schema>
 	<connector name="MyDb" database="MySql" host="localhost" port="3306" user="root" useSystemProxy="false" />
 	<connector name="MyDb" database="MySql" host="localhost" port="3306" user="root" useSystemProxy="false" />
-	<connector name="MySql" database="MySql" driver_class="com.mysql.cj.jdbc.Driver" driver_jar="mysql-connector-j-8.0.31.jar" driver_desc="Standard" host="localhost" port="3306" user="root" passwd="ZGItcm9vdA==" useSystemProxy="false" />
+	<connector name="MySql-PetProject" database="MySql" driver_class="com.mysql.cj.jdbc.NonRegisteringDriver" driver_jar="mysql-connector-j-8.0.31.jar" driver_desc="Standard" host="localhost" port="3306" instance="petproject" user="root" usage="Test" passwd="ZGItcm9vdA==" useSystemProxy="false" />
 	<layout name="Default Layout" id="Layout-17c" show_column_type="y" show_relation="columns" >
+		<comment><![CDATA[petproject]]></comment>
 		<entity schema="petproject" name="address" color="C1D8EE" x="48" y="400" />
 		<entity schema="petproject" name="pet" color="C1D8EE" x="592" y="112" />
 		<entity schema="petproject" name="pet_carer" color="C1D8EE" x="336" y="416" />
 		<entity schema="petproject" name="pet_owner" color="C1D8EE" x="336" y="144" />
-		<entity schema="petproject" name="pet_service" color="C1D8EE" x="944" y="112" />
+		<entity schema="petproject" name="pet_service" color="C1D8EE" x="960" y="112" />
 		<entity schema="petproject" name="route" color="C1D8EE" x="592" y="416" />
 		<entity schema="petproject" name="service" color="C1D8EE" x="912" y="336" />
 		<entity schema="petproject" name="user" color="C1D8EE" x="48" y="144" />
 		<group name="Account" color="C4E0F9" >
 			<comment><![CDATA[Account related entities]]></comment>
-			<entity schema="petproject" name="user" />
-			<entity schema="petproject" name="address" />
-			<entity schema="petproject" name="pet_owner" />
 			<entity schema="petproject" name="pet_carer" />
+			<entity schema="petproject" name="pet_owner" />
+			<entity schema="petproject" name="address" />
+			<entity schema="petproject" name="user" />
 			<callout x="80" y="80" pointer="SV" />
 		</group>
 		<script name="SQL_Editor" id="Editor-2123" language="SQL" >
