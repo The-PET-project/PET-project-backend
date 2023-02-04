@@ -10,7 +10,6 @@ class GetAllUsers(Resource):
     def get(self):
         """Get all users"""
         users = User.query.all()
-        print(users)
         return jsonify([user.to_dict() for user in users])
 
 

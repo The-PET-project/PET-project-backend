@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Backend API for the PET-project to manage the data of User, Pet, and Walker entities."
 authors = ["g4bor <gabor.tanacs@yahoo.com>"]
 readme = "README.md"
-packages = [{include = "pet_project_backend"}]
+include = ["pet_project_backend/", "config/db/*.ini"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -13,6 +13,7 @@ flask-restx = "^1.0.3"
 marshmallow = "^3.19.0"
 mysql = "^0.0.3"
 flask-sqlalchemy = "^3.0.2"
+flask-jwt-extended = "^4.4.4"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.15.10"
@@ -23,9 +24,9 @@ black = "^22.12.0"
 code_formatter = "config.ci_jobs:code_formatter"
 linter = "config.ci_jobs:linter"
 unittest = "config.ci_jobs:run_unittest"
-server-dev = "config.ci_jobs:start_server"
-server-debug = "config.ci_jobs:start_server_in_debug_mode"
-server-prod = "config.ci_jobs:start_prod_server"
+build = "config.ci_jobs:build"
+dev-server = "config.ci_jobs:start_dev_server"
+prod-server = "config.ci_jobs:start_prod_server"
 
 [build-system]
 requires = ["poetry-core"]
