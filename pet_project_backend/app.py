@@ -2,6 +2,7 @@ import os
 import sys
 
 from flask import Flask
+from flask_cors import CORS
 from flask_restx import Api
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -38,6 +39,7 @@ basic_space = rest_api.namespace('users', description="Basic CRUD operations")
 # Init the app when every adjustment is set
 db.init_app(app)
 jwt = JWTManager(app)
+CORS(app)
 from pet_project_backend.api.basic_controller import *
 from pet_project_backend.api.auth_controller import *
 

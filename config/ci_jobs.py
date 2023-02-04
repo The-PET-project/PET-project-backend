@@ -27,7 +27,8 @@ def run_unittest():
 
 
 def build():
-    shutil.rmtree('dist')
+    if os.path.exists('dist'):
+        shutil.rmtree('dist')
     safe_run("poetry build")
 
 
