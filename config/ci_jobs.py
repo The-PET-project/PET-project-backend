@@ -1,5 +1,6 @@
 import os
 import logging
+import shutil
 
 SOURCE_FOLDER = 'pet_project_backend'
 LOGGER = logging.getLogger(__name__)
@@ -25,12 +26,13 @@ def run_unittest():
     safe_run("python -m pytest tests/unit")
 
 
-def start_server():
-    safe_run(f"python {SOURCE_FOLDER}/app.py")
+def build():
+    shutil.rmtree('dist')
+    safe_run("poetry build")
 
 
-def start_server_in_debug_mode():
-    safe_run(f"python {SOURCE_FOLDER}/app.py debug")
+def start_dev_server():
+    safe_run(f"docker-compose --env-file ./.env.dev up")
 
 
 def start_prod_server():
