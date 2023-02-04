@@ -45,6 +45,6 @@ The pyproject.toml file contains other prepared scripts that can be run like: `p
 - *code_formatter* - Format the source code according to python standards.
 - *linter* - Run linter to reveal errors, bugs, stylist issues, suspicious constructs, etc.
 - *unittest* - Run unit tests.
-- *server-dev* - Start the server in development mode.
-- *server-debug* - Start the server in development mode with debugging option.
-- *server-prod* - Start the server in production mode.
+- *build* - Build the project artifact and 
+- *dev-server* - Start the db server and the application server in development mode.
+- *prod-server* - Start the server in production mode. (coming soon..)

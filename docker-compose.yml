@@ -2,6 +2,8 @@ version: "2"
 services:
   app:
     container_name: 'PPB-server'
+    env_file:
+      - ./.env.dev
     build:
       context: ./
       dockerfile: ./config/Dockerfile
