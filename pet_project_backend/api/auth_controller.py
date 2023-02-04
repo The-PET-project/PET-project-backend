@@ -2,6 +2,7 @@ import datetime
 from flask import request, make_response
 from flask_restx import Resource
 from flask_jwt_extended import create_access_token
+from werkzeug.exceptions import BadRequest
 
 from pet_project_backend.app import app, auth_space, db_session
 from pet_project_backend.model import User, USER_REQUIRED_REGISTRATION_FIELDS, USER_REQUIRED_LOGIN_FIELDS, \
@@ -42,8 +43,7 @@ class CreateNewBasicAccount(Resource):
         db_session.add(new_account)
         db_session.commit()
 
-        res_body = {"message": "Registration was successful.", "userId": new_account.userId}
-        return res_body, 201
+        return {"message": "Registration was successful."}, 201
 
 
 @auth_space.route("/registration/<string:user_type>")
@@ -63,7 +63,7 @@ class CreateNewAccount(Resource):
         user_dict = {key: data.get(key) for key in USER_REQUIRED_REGISTRATION_FIELDS}  # Filter out invalid fields.
 
         basic_user = User(**user_dict)
-        type_of_user = UserType[user_type]
+        type_of_user = UserType.resolve(user_type)
         if type_of_user is UserType.PET_OWNER:
             new_account = PetOwner(basic_user)
         else:
@@ -94,21 +94,21 @@ class Login(Resource):
             body = {"user": user.to_dict(), "accessToken": access_token}
             return make_response(body, 200)
         else:
-            return {"error": "The given username-password pair is invalid!"}, 401
+            raise BadRequest("The given username-password pair is invalid!")
 
 
 def validate_registration(user):
     if not all([attr in user for attr in USER_REQUIRED_REGISTRATION_FIELDS]):
-        raise ValueError(f'Missing required attribute. The following fields are required: '
+        raise BadRequest(f'Missing required attribute. The following fields are required: '
                          f'{USER_REQUIRED_REGISTRATION_FIELDS}')
 
     existing_user = User.query.filter_by(username=user["username"]).first()
     if existing_user:
-        return {"message": "The given username is already taken."}, 400
+        raise BadRequest("The given username is already taken.")
 
     existing_email = User.query.filter_by(email=user["email"]).first()
     if existing_email:
-        return {"message": "The given email is already taken."}, 400
+        raise BadRequest("The given email is already taken.")
 
 
 def create_jwt_token(userId):
