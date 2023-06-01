@@ -1,6 +1,8 @@
-FROM python:3.8
+FROM python:3.8-slim
 EXPOSE 5000
 
+RUN apt-get -y update
+RUN apt-get -y install gcc default-libmysqlclient-dev
 RUN python -m pip install --upgrade pip
 RUN python --version & pip --version
 

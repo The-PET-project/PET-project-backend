@@ -1,7 +1,6 @@
-from pet_project_backend.database import db
+from typing import Final
 
-ADDRESS_CREATION_FIELDS = ['address', 'zipCode', 'city', 'county', 'country']
-ADDRESS_ALL_FIELDS = ['addressId', 'userId', *ADDRESS_CREATION_FIELDS]
+from pet_project_backend.externals import db
 
 
 class Address(db.Model):
@@ -14,6 +13,9 @@ class Address(db.Model):
     city = db.Column('city', db.String(100), nullable=False)
     county = db.Column('county', db.String(100), nullable=False)
     country = db.Column('country', db.String(100), nullable=False)
+
+    CREATION_FIELDS: Final = ['address', 'zipCode', 'city', 'county', 'country']
+    ALL_FIELDS: Final = ['addressId', 'userId', *CREATION_FIELDS]
 
     def __init__(self, userId: int, address: str, zipCode: int, city: str, county: str, country: str,
                  addressId: int = None) -> None:

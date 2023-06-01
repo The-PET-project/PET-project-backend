@@ -13,6 +13,7 @@ CREATE  TABLE petproject.address (
 
 CREATE  TABLE petproject.user (
 	user_id              BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	role                 ENUM('ADMIN','USER','GUEST') NOT NULL DEFAULT 'GUEST',
 	username             VARCHAR(100)  NOT NULL,
 	email                VARCHAR(100)  NOT NULL,
 	password             VARCHAR(100)  NOT NULL,

@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, Double
 
 from pet_project_backend.model import User
+from pet_project_backend.model.user_role import UserRole
 
 
 class PetCarer(User):
@@ -16,7 +17,8 @@ class PetCarer(User):
     def __init__(self, user: User, rating: float = None, petCarerId: int = None):
         user_dict = user.to_dict()
         super().__init__(**user_dict, password=user.password)
-        self.__userId = user
+        self.role = UserRole.USER
+        self.__userId = user.userId
         self.__rating = rating
         self.__petCarerId = petCarerId
 

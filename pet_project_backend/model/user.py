@@ -1,16 +1,15 @@
-from pet_project_backend.database import db
-from pet_project_backend.model.address import ADDRESS_ALL_FIELDS, Address
+from typing import Final
 
-USER_REQUIRED_LOGIN_FIELDS = ['username', 'password']
-USER_REQUIRED_REGISTRATION_FIELDS = ['email', 'username', 'password', 'firstName', 'lastName']
-USER_CREATION_FIELDS = [*USER_REQUIRED_REGISTRATION_FIELDS, 'middleName', 'phone', 'mobile', 'address']
-USER_ALL_FIELDS = ['userId', *USER_CREATION_FIELDS]
+from pet_project_backend.externals import db
+from pet_project_backend.model.address import Address
+from pet_project_backend.model.user_role import UserRole
 
 
 class User(db.Model):
     __tablename__ = "user"
 
     userId = db.Column('user_id', db.Integer, autoincrement=True, primary_key=True)
+    role = db.Column('role', db.Enum(UserRole), nullable=False)
     username = db.Column('username', db.String(100), nullable=False)
     email = db.Column('email', db.String(100), nullable=False)
     password = db.Column('password', db.String(100), nullable=False)
@@ -22,11 +21,17 @@ class User(db.Model):
     # DB relationships
     address = db.relationship('Address', uselist=False)
 
-    def __init__(self, username: str, email: str, password: str, firstName: str, lastName: str,
-                 userId: int = None, middleName: str = None, phone: str = None, mobile: str = None,
+    LOGIN_FIELDS: Final = ['username', 'password']
+    MINIMUM_REGISTRATION_FIELDS: Final = ['email', 'username', 'password', 'firstName', 'lastName']
+    REGISTRATION_FIELDS: Final = [*MINIMUM_REGISTRATION_FIELDS, 'middleName', 'phone', 'mobile', 'address']
+    ALL_FIELDS: Final = ['userId', 'role', *REGISTRATION_FIELDS],
+
+    def __init__(self, username: str, email: str, password: str, firstName: str, lastName: str, middleName: str = None,
+                 userId: int = None, role: UserRole = UserRole.GUEST, phone: str = None, mobile: str = None,
                  address: dict = None):
         super().__init__()
         self.userId = userId
+        self.role = role
         self.username = username
         self.email = email
         self.password = password
@@ -36,7 +41,7 @@ class User(db.Model):
         self.phone = phone
         self.mobile = mobile
         if address:
-            address_dict = {key: address.get(key) for key in ADDRESS_ALL_FIELDS}  # Filter out invalid fields.
+            address_dict = {key: address.get(key) for key in Address.ALL_FIELDS}  # Filter out invalid fields.
             self.address = Address(**address_dict)
 
     def __repr__(self):
@@ -47,6 +52,7 @@ class User(db.Model):
         address_dict = self.address.to_dict() if self.address else None
         return dict({
             "userId": self.userId,
+            "role": self.role,
             "username": self.username,
             "email": self.email,
             "firstName": self.firstName,
@@ -62,4 +68,3 @@ class User(db.Model):
 
     def __ne__(self, other):
         return not self.__eq__(other)
-
