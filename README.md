@@ -48,3 +48,7 @@ The pyproject.toml file contains other prepared scripts that can be run like: `p
 - *build* - Build the project artifact and 
 - *dev-server* - Start the db server and the application server in development mode.
 - *prod-server* - Start the server in production mode. (coming soon..)
+
+## Useful commands
+
+- **export dependencies** - `poetry export -f requirements.txt --output requirements.txt`
