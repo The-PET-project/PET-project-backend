@@ -1,7 +1,5 @@
 from enum import Enum
 
-from werkzeug.exceptions import BadRequest
-
 
 class UserType(Enum):
     PET_OWNER = 'PET_OWNER',
@@ -16,5 +14,4 @@ class UserType(Enum):
         try:
             return UserType[user_type]
         except KeyError:
-            raise BadRequest(f"The value of '{user_type}' is invalid for user-type. "
-                             f"The valid values are: {UserType.list()}")
+            return None
