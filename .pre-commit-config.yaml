@@ -1,0 +1,49 @@
+repos:
+
+    # ========== Code checkers and formatters ==========
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+    -   id: end-of-file-fixer  # Code formatter
+        stages: [pre-commit]
+    -   id: trailing-whitespace  # Code formatter
+        stages: [pre-commit]
+    -   id: check-yaml
+        stages: [pre-push]
+    -   id: check-json
+        stages: [pre-push]
+-   repo: https://github.com/asottile/reorder-python-imports
+    rev: v3.10.0
+    hooks:
+    -   id: reorder-python-imports  # Code formatter
+        stages: [pre-commit]
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v3.7.0
+    hooks:
+    -   id: pyupgrade  # Code formatter tool to auto-upgrade syntax for newer versions of the language.
+        stages: [pre-commit]
+        args: [--py38-plus]
+-   repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v2.0.2
+    hooks:
+    -   id: autopep8  # Code formatter
+        stages: [pre-commit]
+
+    # ========== Linter, static code analyser ==========
+-   repo: https://github.com/PyCQA/flake8
+    rev: 6.0.0
+    hooks:
+    -   id: flake8  # Linter
+        stages: [pre-push]
+        args: [--max-line-length=120]
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.4.1
+    hooks:
+    -   id: mypy  # Static type checker
+        stages: [pre-push]
+        additional_dependencies: [types-all]
+-   repo: https://github.com/pycqa/pylint
+    rev: v3.0.0a6
+    hooks:
+    -   id: pylint  # Static code analyser
+        stages: [pre-push]

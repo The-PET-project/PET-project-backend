@@ -212,7 +212,7 @@ Types:
 		<script name="SQL_Editor" id="Editor-2123" language="SQL" >
 			<string><![CDATA[CREATE SCHEMA petproject;
 
-CREATE  TABLE `user` ( 
+CREATE  TABLE `user` (
 	user_id              BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	username             VARCHAR(100)  NOT NULL     ,
 	email                VARCHAR(100)  NOT NULL     ,
@@ -221,39 +221,39 @@ CREATE  TABLE `user` (
 	mobil                VARCHAR(30)       ,
 	firstname            VARCHAR(100)  NOT NULL     ,
 	lastname             VARCHAR(100)  NOT NULL     ,
-	middlename           VARCHAR(100)       
+	middlename           VARCHAR(100)
  ) engine=InnoDB;
 
-CREATE  TABLE address ( 
+CREATE  TABLE address (
 	address_id           BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	user_id              BIGINT UNSIGNED NOT NULL     ,
 	address              VARCHAR(100)  NOT NULL     ,
 	zip_code             INT UNSIGNED NOT NULL     ,
 	city                 VARCHAR(100)  NOT NULL     ,
 	county               VARCHAR(100)  NOT NULL     ,
-	country              VARCHAR(100)  NOT NULL     
+	country              VARCHAR(100)  NOT NULL
  ) engine=InnoDB;
 
-CREATE  TABLE pet_carer ( 
+CREATE  TABLE pet_carer (
 	`pet-carer_id`       BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	user_id              INT UNSIGNED NOT NULL     ,
-	rating               DOUBLE UNSIGNED      
+	rating               DOUBLE UNSIGNED
  ) engine=InnoDB;
 
-CREATE  TABLE pet_owner ( 
+CREATE  TABLE pet_owner (
 	owner_id             BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	user_id              BIGINT UNSIGNED NOT NULL     ,
-	rating               DOUBLE UNSIGNED      
+	rating               DOUBLE UNSIGNED
  ) engine=InnoDB;
 
-CREATE  TABLE route ( 
+CREATE  TABLE route (
 	route_id             BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	pet_carer_id         BIGINT UNSIGNED NOT NULL     ,
 	service_id           BIGINT UNSIGNED NOT NULL     ,
-	appointment          DATETIME       
+	appointment          DATETIME
  ) engine=InnoDB;
 
-CREATE  TABLE service ( 
+CREATE  TABLE service (
 	service_id           BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	owner_id             BIGINT UNSIGNED NOT NULL     ,
 	`type`               ENUM('PET-WALKING','PET-FEED','PET-TAXI','OVERNIGHT-CARE','PET-HOTEL')  NOT NULL     ,
@@ -262,15 +262,15 @@ CREATE  TABLE service (
 	time_interval        TINYINT UNSIGNED NOT NULL     ,
 	start_date           DATE  NOT NULL     ,
 	end_date             DATE       ,
-	description          VARCHAR(300)       
+	description          VARCHAR(300)
  ) engine=InnoDB;
 
-CREATE  TABLE service_registration ( 
+CREATE  TABLE service_registration (
 	owner_id             INT UNSIGNED NOT NULL     ,
-	service_id           BIGINT UNSIGNED NOT NULL     
+	service_id           BIGINT UNSIGNED NOT NULL
  ) engine=InnoDB;
 
-CREATE  TABLE pet ( 
+CREATE  TABLE pet (
 	pet_id               BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	owner_id             BIGINT UNSIGNED NOT NULL     ,
 	name                 VARCHAR(100)  NOT NULL     ,
@@ -280,22 +280,22 @@ CREATE  TABLE pet (
 	category             VARCHAR(50)  NOT NULL     ,
 	breed                VARCHAR(100)  NOT NULL     ,
 	color                VARCHAR(25)       ,
-	rating               DOUBLE UNSIGNED      
+	rating               DOUBLE UNSIGNED
  ) engine=InnoDB;
 
-CREATE  TABLE pet_carer_route ( 
+CREATE  TABLE pet_carer_route (
 	pet_carer_id         BIGINT UNSIGNED NOT NULL     ,
-	route_id             BIGINT UNSIGNED NOT NULL     
+	route_id             BIGINT UNSIGNED NOT NULL
  ) engine=InnoDB;
 
-CREATE  TABLE pet_ownership ( 
+CREATE  TABLE pet_ownership (
 	owner_id             BIGINT UNSIGNED NOT NULL     ,
-	pet_id               BIGINT UNSIGNED NOT NULL     
+	pet_id               BIGINT UNSIGNED NOT NULL
  ) engine=InnoDB;
 
-CREATE  TABLE service_pet ( 
+CREATE  TABLE service_pet (
 	service_id           BIGINT UNSIGNED NOT NULL     ,
-	pet_id               BIGINT UNSIGNED NOT NULL     
+	pet_id               BIGINT UNSIGNED NOT NULL
  ) engine=InnoDB;
 
 ALTER TABLE address ADD CONSTRAINT user_id FOREIGN KEY ( user_id ) REFERENCES `user`( user_id ) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -348,7 +348,7 @@ ALTER TABLE pet MODIFY category VARCHAR(50)  NOT NULL   COMMENT 'Category of the
 		<script name="SQL_Editor_001" id="Editor-1b32" language="SQL" >
 			<string><![CDATA[CREATE SCHEMA petproject;
 
-CREATE  TABLE petproject.address ( 
+CREATE  TABLE petproject.address (
 	address_id           BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	user_id              BIGINT UNSIGNED NOT NULL     ,
 	address              VARCHAR(100)  NOT NULL     ,
@@ -356,10 +356,10 @@ CREATE  TABLE petproject.address (
 	city                 VARCHAR(100)  NOT NULL     ,
 	county               VARCHAR(100)  NOT NULL     ,
 	country              VARCHAR(100)  NOT NULL     ,
-	CONSTRAINT user_id UNIQUE ( user_id ) 
+	CONSTRAINT user_id UNIQUE ( user_id )
  ) engine=InnoDB;
 
-CREATE  TABLE petproject.`user` ( 
+CREATE  TABLE petproject.`user` (
 	user_id              BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	username             VARCHAR(100)  NOT NULL     ,
 	email                VARCHAR(100)  NOT NULL     ,
@@ -368,10 +368,10 @@ CREATE  TABLE petproject.`user` (
 	lastname             VARCHAR(100)  NOT NULL     ,
 	middlename           VARCHAR(100)       ,
 	phone                VARCHAR(30)       ,
-	mobile               VARCHAR(30)       
+	mobile               VARCHAR(30)
  ) engine=InnoDB;
 
-CREATE  TABLE petproject.pet_carer ( 
+CREATE  TABLE petproject.pet_carer (
 	pet_carer_id         BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	user_id              BIGINT UNSIGNED NOT NULL     ,
 	rating               DOUBLE UNSIGNED      ,
@@ -379,7 +379,7 @@ CREATE  TABLE petproject.pet_carer (
 	CONSTRAINT fk_pet_carer_user FOREIGN KEY ( user_id ) REFERENCES petproject.`user`( user_id ) ON DELETE CASCADE ON UPDATE CASCADE
  ) engine=InnoDB;
 
-CREATE  TABLE petproject.pet_owner ( 
+CREATE  TABLE petproject.pet_owner (
 	owner_id             BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	user_id              BIGINT UNSIGNED NOT NULL     ,
 	rating               DOUBLE UNSIGNED      ,
@@ -387,7 +387,7 @@ CREATE  TABLE petproject.pet_owner (
 	CONSTRAINT user_id FOREIGN KEY ( user_id ) REFERENCES petproject.`user`( user_id ) ON DELETE CASCADE ON UPDATE CASCADE
  ) engine=InnoDB;
 
-CREATE  TABLE petproject.service ( 
+CREATE  TABLE petproject.service (
 	service_id           BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	owner_id             BIGINT UNSIGNED NOT NULL     ,
 	`type`               ENUM('PET-WALKING','PET-FEED','PET-TAXI','OVERNIGHT-CARE','PET-HOTEL')  NOT NULL     ,
@@ -402,7 +402,7 @@ CREATE  TABLE petproject.service (
 
 CREATE INDEX fk_service_pet_owner ON petproject.service ( owner_id );
 
-CREATE  TABLE petproject.pet ( 
+CREATE  TABLE petproject.pet (
 	pet_id               BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	owner_id             BIGINT UNSIGNED NOT NULL     ,
 	name                 VARCHAR(100)  NOT NULL     ,
@@ -418,7 +418,7 @@ CREATE  TABLE petproject.pet (
 
 CREATE INDEX fk_pet_pet_owner ON petproject.pet ( owner_id );
 
-CREATE  TABLE petproject.pet_service ( 
+CREATE  TABLE petproject.pet_service (
 	service_id           BIGINT UNSIGNED NOT NULL     ,
 	pet_id               BIGINT UNSIGNED NOT NULL     ,
 	CONSTRAINT fk_for_service FOREIGN KEY ( service_id ) REFERENCES petproject.service( service_id ) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -429,7 +429,7 @@ CREATE INDEX fk_for_service ON petproject.pet_service ( service_id );
 
 CREATE INDEX fk_for_pet ON petproject.pet_service ( pet_id );
 
-CREATE  TABLE petproject.route ( 
+CREATE  TABLE petproject.route (
 	route_id             BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
 	service_id           BIGINT UNSIGNED NOT NULL     ,
 	pet_carer_id         BIGINT UNSIGNED NOT NULL     ,
