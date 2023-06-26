@@ -1,3 +1,4 @@
+import unittest
 from datetime import datetime
 from datetime import timedelta
 
@@ -90,3 +91,7 @@ class TestingClass(Resource):
     def post(self, **kwargs):
         """Function that is created to be decorated for testing"""
         return {"msg": "Only for admins."}, 200
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -1,3 +1,5 @@
+import unittest
+
 import pytest
 from flask_jwt_extended import decode_token
 from flask_restx import Api
@@ -44,3 +46,7 @@ def test_created_jwt_token_contains_the_required_data(app):
         assert jwt_data.get("userId") == test_user.userId
         assert jwt_data.get("username") == test_user.username
         assert jwt_data.get("role") == test_user.role.name
+
+
+if __name__ == "__main__":
+    unittest.main()
