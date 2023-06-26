@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class UserType(Enum):
-    PET_OWNER = 'PET_OWNER',
-    PET_CARER = 'PET_CARER'
+    PET_OWNER = ("PET_OWNER",)
+    PET_CARER = "PET_CARER"
 
     @staticmethod
     def list():

@@ -6,8 +6,15 @@ class UserRole(Enum):
     USER = (True, True, True, True, False, False)
     GUEST = (True, False, False, False, False, False)
 
-    def __init__(self, browse_private_sites: bool, add_content: bool, edit_content: bool, send_message: bool,
-                 edit_accounts: bool, delete_accounts: bool):
+    def __init__(
+        self,
+        browse_private_sites: bool,
+        add_content: bool,
+        edit_content: bool,
+        send_message: bool,
+        edit_accounts: bool,
+        delete_accounts: bool,
+    ):
         self.can_browse_private_sites: bool = browse_private_sites
         self.can_add_content: bool = add_content
         self.can_edit_content: bool = edit_content
