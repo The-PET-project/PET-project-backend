@@ -13,14 +13,15 @@ CREATE  TABLE petproject.address (
 
 CREATE  TABLE petproject.user (
 	user_id              BIGINT UNSIGNED NOT NULL   AUTO_INCREMENT  PRIMARY KEY,
+	role                 ENUM('ADMIN','USER','GUEST') NOT NULL DEFAULT 'GUEST',
 	username             VARCHAR(100)  NOT NULL,
 	email                VARCHAR(100)  NOT NULL,
 	password             VARCHAR(100)  NOT NULL,
-	phone                VARCHAR(30),
-	mobil                VARCHAR(30),
 	firstname            VARCHAR(100)  NOT NULL,
 	lastname             VARCHAR(100)  NOT NULL,
-	middlename           VARCHAR(100)
+	middlename           VARCHAR(100),
+	phone                VARCHAR(30),
+	mobile               VARCHAR(30)
  ) engine=InnoDB;
 
 CREATE  TABLE petproject.pet_carer (
@@ -93,7 +94,7 @@ CREATE  TABLE petproject.route (
 
 CREATE INDEX fk_route_pet_carer ON petproject.route ( pet_carer_id );
 
-ALTER TABLE petproject.user COMMENT 'User account that contains the registered people of the PET-project app.';
+ALTER TABLE petproject.`user` COMMENT 'User account that contains the registered people of the PET-project app.';
 
 ALTER TABLE petproject.service COMMENT 'Registered service requests in the PET-project application.\n\nTypes:\n- PET-WALKING: Get your pet walked by a pet carer\n- PET-FEED: Get your pet fed by a pet carer when you are not at home\n- PET-TAXI: Get your pet transported by a competent specialist\n- OVERNIGHT-CARE: Get your pet left under supervision overnight\n- PET-HOTEL: Get your pet cared when you go for a vacation';
 

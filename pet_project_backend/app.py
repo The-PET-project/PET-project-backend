@@ -1,41 +1,40 @@
-import configparser
+import os
 import sys
 
 from flask import Flask
-from flask_restx import Api
+from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 
-from pet_project_backend.database import db
-
-
-def get_db_URI():
-    """Build database URI from config values"""
-    config = configparser.ConfigParser()
-    config.read('../config/config.ini')
-    db_conf = {key: value for (key, value) in config['MYSQL-DB'].items()}
-    username, password, host, port, database_name = db_conf.values()
-    return f'mysql://{username}:{password}@{host}:{port}/{database_name}'
+from pet_project_backend.api.auth_controller import auth_ns
+from pet_project_backend.api.user_controller import users_ns
+from pet_project_backend.externals import bcrypt
+from pet_project_backend.externals import db
+from pet_project_backend.externals import rest_api
 
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = get_db_URI()
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-APIs = {}
+def create_app(config, api=None):
+    application = Flask(__name__, instance_relative_config=True)
+    application.config.from_object(config)
 
-rest_api = Api(
-    app,
-    version="0.1",
-    title="PET-project",
-    prefix='/api/v1',
-    description="Backend API for the PET-project to manage the data of User, Pet, and Walker entities.",
-)
+    # Define API routes
+    if not api:
+        api = rest_api
+        api.add_namespace(auth_ns)
+        api.add_namespace(users_ns)
+    api.init_app(application)
 
-# Define server APIs
-basic_space = rest_api.namespace('users', description="Basic CRUD operations")
+    # Setup DB
+    db.init_app(application)
 
-# Init the app when every adjustment is set
-db.init_app(app)
-from pet_project_backend.api.basic_controller import *
+    # Additional setup
+    JWTManager(application)
+    CORS(application)
+    bcrypt.init_app(application)
+
+    return application
 
 
 if __name__ == "__main__":
+    app_config_name = os.environ.get("APP_CONFIG", "BaseConfiguration")
+    app = create_app(f"pet_project_backend.config.{app_config_name}")
     app.run(host="0.0.0.0", port=5000, debug="debug" in sys.argv)
